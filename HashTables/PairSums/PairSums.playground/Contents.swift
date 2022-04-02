@@ -1,15 +1,17 @@
 func numberOfWays(arr: [Int], k: Int) -> Int {
-    var pairCount = 0
-    var tmpArr = arr
-    for i in arr {
-        tmpArr.remove(at: 0)
-        for j in tmpArr {
-            if i + j == k {
-                pairCount += 1
-            }
+    var hashTable = [Int: Int]()
+    arr.forEach {
+        hashTable[$0] = (hashTable[$0] ?? 0) + 1
+    }
+    var count = 0
+    hashTable.keys.forEach {
+        if $0 == k / 2, let numberCount = hashTable[$0], numberCount > 1 {
+            count += numberCount * (numberCount - 1)
+        } else if let numberCount = hashTable[k - $0]  {
+            count += (hashTable[$0] ?? 0) * numberCount
         }
     }
-    return pairCount
+    return count / 2
 }
 
 var test_case_number = 1
@@ -32,3 +34,7 @@ check(expected: 2, output: numberOfWays(arr: arr1, k: k1))
 let arr2 = [ 1, 5, 3, 3, 3]
 let k2 = 6
 check(expected: 4, output: numberOfWays(arr: arr2, k: k2))
+
+let arr3 = [ 5, 5, 5, 5, 5]
+let k3 = 10
+check(expected: 10, output: numberOfWays(arr: arr3, k: k3))

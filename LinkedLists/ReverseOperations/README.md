@@ -17,8 +17,7 @@ You must use the following definition for elements in the linked list:
 Node reverse(Node head)
 
 #### Constraints
-1 <= __N__ <= 1000, where __N__ is the size of the list
-
+1 <= __N__ <= 1000, where __N__ is the size of the list  
 1 <= __Li__ <= 10^9, where __Li__ is the ith element of the list
 
 #### Example

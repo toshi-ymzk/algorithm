@@ -35,7 +35,17 @@ let expected2 = "bacd"
 let output2 = findEncryptedWord(s: s2)
 check(expected: expected2, output: output2)
 
-let s3 = "asjalksfjaljalkdfjaljfalsf"
-let expected3 = "akjasaljsflajldlkjfaajfslf"
+let s3 = "abcxcba"
+let expected3 = "xbacbca"
 let output3 = findEncryptedWord(s: s3)
 check(expected: expected3, output: output3)
+
+let s4 = "facebook"
+let expected4 = "eafcobok"
+let output4 = findEncryptedWord(s: s4)
+check(expected: expected4, output: output4)
+
+let s5 = "asjalksfjaljalkdfjaljfalsf"
+let expected5 = "akjasaljsflajldlkjfaajfslf"
+let output5 = findEncryptedWord(s: s5)
+check(expected: expected5, output: output5)

@@ -1,31 +1,65 @@
 
 struct RotationalCipher {
     let backing: String
-    let lowerAlphabetList = Array("a".unicodeScalars.first!.value..."z".unicodeScalars.first!.value)
+    let lowerAlphabetList = ("a".unicodeScalars.first!.value..."z".unicodeScalars.first!.value)
         .map {Character(UnicodeScalar($0)!)}
-    let upperAlphabetList = Array("A".unicodeScalars.first!.value..."Z".unicodeScalars.first!.value)
+    let upperAlphabetList = ("A".unicodeScalars.first!.value..."Z".unicodeScalars.first!.value)
         .map {Character(UnicodeScalar($0)!)}
-    let numberList = Array(0...9).map {Character(String($0))}
-    
+    let numberList = (0...9).map {Character(String($0))}
+
     func cipher(withRotationFactor: Int) -> String {
-        let characters = Array(backing)
-        let result = characters.map { char -> String.Element in
-            return [lowerAlphabetList, upperAlphabetList, numberList].reduce(char, {
-                return rotate(input: $0, rotationFactor: withRotationFactor, list: $1)
-            })
+        var lowerAlphabetIndexTable = [Character: Int]()
+        lowerAlphabetList.enumerated().forEach {
+            lowerAlphabetIndexTable[$0.element] = $0.offset
         }
-        return String(result)
+        var upperAlphabetIndexTable = [Character: Int]()
+        upperAlphabetList.enumerated().forEach {
+            upperAlphabetIndexTable[$0.element] = $0.offset
+        }
+        var numberIndexTable = [Character: Int]()
+        numberList.enumerated().forEach {
+            numberIndexTable[$0.element] = $0.offset
+        }
+        var result: String = ""
+        for char in backing {
+            if let index = lowerAlphabetIndexTable[char] {
+                result.append(
+                    rotate(
+                        char: char,
+                        index: index,
+                        charList: lowerAlphabetList,
+                        withRotationFactor: withRotationFactor
+                    )
+                )
+            } else if let index = upperAlphabetIndexTable[char] {
+                result.append(
+                    rotate(
+                        char: char,
+                        index: index,
+                        charList: upperAlphabetList,
+                        withRotationFactor: withRotationFactor
+                    )
+                )
+            } else if let index = numberIndexTable[char] {
+                result.append(
+                    rotate(
+                        char: char,
+                        index: index,
+                        charList: numberList,
+                        withRotationFactor: withRotationFactor
+                    )
+                )
+            } else {
+                result.append(char)
+            }
+        }
+        return result
     }
     
-    private func rotate(input: Character, rotationFactor: Int, list: [Character]) -> Character {
-        if let firstIndex = list.firstIndex(of: input) {
-            var rotatedIndex = firstIndex + rotationFactor % list.count
-            if rotatedIndex >= list.count {
-                rotatedIndex -= list.count
-            }
-            return list[rotatedIndex]
-        }
-        return input
+    private func rotate(char: Character, index: Int, charList: [Character], withRotationFactor: Int) -> Character {
+        let tmpIndex = index + withRotationFactor % charList.count
+        let rotatedIndex = tmpIndex < charList.count ? tmpIndex : tmpIndex - charList.count
+        return charList[rotatedIndex]
     }
 }
 

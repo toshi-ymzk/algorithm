@@ -10,7 +10,7 @@ Given a string and a rotation factor, return an encrypted string.
 string rotationalCipher(string input, int rotationFactor)
 
 #### Input
-1 <= |input| <= 1,000,000
+1 <= |input| <= 1,000,000  
 0 <= rotationFactor <= 1,000,000
 
 #### Output

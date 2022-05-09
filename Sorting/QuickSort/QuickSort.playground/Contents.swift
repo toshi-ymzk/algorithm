@@ -3,10 +3,18 @@ func quicksort<T: Comparable>(_ arr: [T]) -> [T] {
     guard arr.count > 1 else { return arr }
     
     let pivot = arr[arr.count / 2]
-    let less = arr.filter { $0 < pivot }
-    let equal = arr.filter { $0 == pivot }
-    let greater = arr.filter { $0 > pivot }
-    
+    var less: [T] = []
+    var greater: [T] = []
+    var equal: [T] = []
+    arr.forEach {
+        if $0 < pivot {
+            less.append($0)
+        } else if $0 > pivot {
+            greater.append($0)
+        } else {
+            equal.append($0)
+        }
+    }
     return quicksort(less) + equal + quicksort(greater)
 }
 
